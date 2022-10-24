@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import "./write.css";
 import axios from "axios";
 import { Context } from "../../context/Context";
+import QuillEditor from "../../components/quillEditor/QuillEditor";
+
 
 export default function Write() {
   const [title, setTitle] = useState("");
@@ -36,7 +38,7 @@ export default function Write() {
       {file && (
         <img className="writeImg" src={URL.createObjectURL(file)} alt="" />
       )}
-      <form className="writeForm" onSubmit={handleSubmit}>
+      <div className="editorContainer">
         <div className="writeFormGroup">
           <label htmlFor="fileInput">
             <i className="writeIcon fas fa-plus"></i>
@@ -55,18 +57,10 @@ export default function Write() {
             onChange={e=>setTitle(e.target.value)}
           />
         </div>
-        <div className="writeFormGroup">
-          <textarea
-            placeholder="Tell your story..."
-            type="text"
-            className="writeInput writeText"
-            onChange={e=>setDesc(e.target.value)}
-          ></textarea>
+        <div>
+          <QuillEditor desc={desc} setDesc={setDesc} onSubmit={handleSubmit} />
         </div>
-        <button className="writeSubmit" type="submit">
-          Publish
-        </button>
-      </form>
+      </div>
     </div>
   );
 }

@@ -4,8 +4,10 @@ import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./singlePost.css";
+import createDOMPurify from 'dompurify'
 
 export default function SinglePost() {
+  const DOMPurify = createDOMPurify(window)
   const location = useLocation();
   const path = location.pathname.split("/")[2];
   const [post, setPost] = useState({});
@@ -94,7 +96,7 @@ export default function SinglePost() {
             onChange={(e) => setDesc(e.target.value)}
           />
         ) : (
-          <p className="singlePostDesc">{desc}</p>
+          <p className="singlePostDesc" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.desc) }}></p>
         )}
         {updateMode && (
           <button className="singlePostButton" onClick={handleUpdate}>

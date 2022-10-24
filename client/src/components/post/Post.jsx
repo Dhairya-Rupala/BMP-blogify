@@ -2,6 +2,7 @@ import "./post.css";
 import { Link } from "react-router-dom";
 
 export default function Post({ post }) {
+  const descr = post.desc.replace(/<[^>]*>/g, '')
   const PF = "http://localhost:5000/images/";
   return (
     <Link to={`/post/${post._id}`} className="link">
@@ -21,7 +22,7 @@ export default function Post({ post }) {
           {new Date(post.createdAt).toDateString()}
         </span>
       </div>
-      <p className="postDesc">{post.desc}</p>
+      <p className="postDesc">{descr}</p>
     </div>
     </Link>
   );

@@ -1,0 +1,13 @@
+.quillContainer{
+    display: flex;
+    flex-direction: column;
+    margin: 0px;
+    padding: 0px;
+}
+
+.quill.editor{
+    width: 80vw;
+    height: 50vh;
+    max-height: 50vh;
+    margin-bottom: 60px;
+}

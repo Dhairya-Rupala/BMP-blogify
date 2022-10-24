@@ -1,0 +1,61 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto;
+}
+.profileContainer{
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    align-items: center;
+    gap: 30px;
+    margin: 10px auto;
+    border: 1px solid grey;
+    padding: 60px;
+}
+
+.fieldLabel{
+    font-weight: 550;
+    padding-bottom: 5px;
+}
+
+.fieldContainer{
+    width: 100%;
+}
+
+.containerTitle{
+    font-size: 50px;
+    font-weight: 600;
+}
+
+.buttonContainer{
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-end;
+}
+
+.profileImageContainer{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    
+}
+
+.profilePictureInput{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.profilePicture{
+    height: 100px;
+    width: 100px;
+}
+
+.profilePictureTitle{
+    font-weight: 550;
+}

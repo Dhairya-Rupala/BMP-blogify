@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    batch: {
+      type: Number,
+      required:false,
+    },
     profilePic: {
       type: String,
       default: "",
