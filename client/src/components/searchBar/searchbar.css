@@ -1,0 +1,9 @@
+.searchBarContainer{
+    display: flex;
+    justify-content: space-between;
+    height: 25px;
+}
+
+.searchBarContainer > input{
+    width: 70%;
+}
