@@ -29,7 +29,7 @@ const formats = [
 
 
 
-const QuillEditor = ({desc,setDesc,onSubmit}) => {
+const QuillEditor = ({desc,setDesc,onSubmit,buttonText}) => {
     return (
         <div className="quillContainer">
             <ReactQuill
@@ -41,7 +41,7 @@ const QuillEditor = ({desc,setDesc,onSubmit}) => {
                 onChange={setDesc}
             />
             <div>
-                <Button onClick={onSubmit}>Publish</Button>
+                <Button onClick={onSubmit}>{buttonText}</Button>
             </div>
              
         </div>

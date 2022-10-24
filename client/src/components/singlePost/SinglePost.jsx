@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./singlePost.css";
 import createDOMPurify from 'dompurify'
+import QuillEditor from "../quillEditor/QuillEditor";
 
 export default function SinglePost() {
   const DOMPurify = createDOMPurify(window)
@@ -43,6 +44,12 @@ export default function SinglePost() {
         title,
         desc,
       });
+      setPost({
+        ...post,
+        username: user.username,
+        title,
+        desc
+      })
       setUpdateMode(false)
     } catch (err) {}
   };
@@ -90,18 +97,11 @@ export default function SinglePost() {
           </span>
         </div>
         {updateMode ? (
-          <textarea
-            className="singlePostDescInput"
-            value={desc}
-            onChange={(e) => setDesc(e.target.value)}
+          <QuillEditor desc={desc} setDesc={setDesc} onSubmit={handleUpdate}
+            buttonText="Update"
           />
         ) : (
           <p className="singlePostDesc" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.desc) }}></p>
-        )}
-        {updateMode && (
-          <button className="singlePostButton" onClick={handleUpdate}>
-            Update
-          </button>
         )}
       </div>
     </div>

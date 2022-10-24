@@ -58,7 +58,9 @@ export default function Write() {
           />
         </div>
         <div>
-          <QuillEditor desc={desc} setDesc={setDesc} onSubmit={handleSubmit} />
+          <QuillEditor desc={desc} setDesc={setDesc} onSubmit={handleSubmit}
+            buttonText="Publish"
+          />
         </div>
       </div>
     </div>

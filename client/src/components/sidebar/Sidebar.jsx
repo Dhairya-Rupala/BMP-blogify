@@ -26,8 +26,8 @@ export default function Sidebar({setPosts}) {
       <div className="sidebarItem">
         <div className="sidebarTitle">CATEGORIES</div>
         <div className="sidebarList">
-          {cats.map((c) => (
-            <Link to={`/?cat=${c.name}`} className="link">
+          {cats.map((c,index) => (
+            <Link to={`/?cat=${c.name}`} className="link" key={index}>
               <ChevronRight/>
             <span className="sidebarListItem">{c.name}</span>
             </Link>

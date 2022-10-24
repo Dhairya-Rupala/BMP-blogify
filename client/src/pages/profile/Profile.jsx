@@ -15,7 +15,6 @@ const Profile = () => {
     const [batch, setBatch] = useState('')
     const [isBatchNum,setIsBatchNum] = useState(true)
     const [password, setPassword] = useState("");
-    const batchPlaceHolder = "Please Enter your batch";
     const [success, setSuccess] = useState(false);
 
   // local multer path
@@ -43,21 +42,18 @@ const Profile = () => {
       } catch (err) {}
     }
       try {
-      const res = await axios.put("/users/" + user._id, updatedUser);
+          const res = await axios.put("/users/" + user._id, updatedUser);
+          toaster.info('Profile Updated Successfully');
       setSuccess(true);
-          dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
-          setToastKey(toaster.info('Profile Updated Successfully'));
+      dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
     } catch (err) {
           dispatch({ type: "UPDATE_FAILURE" });
-          setToastKey(toaster.info('Something went wrong,please check the details'));
+          toaster.info('Something went wrong,please check the details');
     }
     }
     
     return (
         <>
-            <ToasterContainer 
-                autoHideDuration={1500}
-             />
         <div className="container">
             <span className="containerTitle">My Profile</span>
             <div className="profileContainer">
