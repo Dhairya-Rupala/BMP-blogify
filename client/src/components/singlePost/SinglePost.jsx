@@ -7,57 +7,66 @@ import "./singlePost.css";
 import createDOMPurify from 'dompurify'
 import QuillEditor from "../quillEditor/QuillEditor";
 
-export default function SinglePost() {
-  const DOMPurify = createDOMPurify(window)
+export default function SinglePost({ post, onAction }) {
+  
+  // fetching the location 
   const location = useLocation();
   const path = location.pathname.split("/")[2];
-  const [post, setPost] = useState({});
+
+  // dompurifier 
+  const DOMPurify = createDOMPurify(window)
+
+  // multer path for the images 
   const PF = "http://localhost:5000/images/";
   const { user } = useContext(Context);
+
+  // states for updating the title or the description 
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
+
+  // update Mode flag
   const [updateMode, setUpdateMode] = useState(false);
 
   useEffect(() => {
-    const getPost = async () => {
-      const res = await axios.get("/posts/" + path);
-      setPost(res.data);
-      setTitle(res.data.title);
-      setDesc(res.data.desc);
-    };
-    getPost();
-  }, [path]);
+    onAction({
+      type: "SET_SINGLE_POST",
+      payload: path
+    });
+    setTitle(post?post.title:"");
+    setDesc(post ? post.desc : "");
+
+    // cleaning up the states
+    return () => {
+      setTitle("")
+      setDesc("")
+    }
+  },[path,post])
 
   const handleDelete = async () => {
-    try {
-      await axios.delete(`/posts/${post._id}`, {
-        data: { username: user.username },
-      });
-      window.location.replace("/");
-    } catch (err) {}
+    await onAction({
+      type: "DELETE_SINGLE_POST",
+      payload: user.username
+    });
+    window.location.replace("/");
   };
 
   const handleUpdate = async () => {
-    try {
-      await axios.put(`/posts/${post._id}`, {
-        username: user.username,
-        title,
-        desc,
-      });
-      setPost({
-        ...post,
+    await onAction({
+      type: "UPDATE_SINGLE_POST",
+      payload: {
         username: user.username,
         title,
         desc
-      })
-      setUpdateMode(false)
-    } catch (err) {}
+      }
+    })
+    setUpdateMode(false)
   };
 
   return (
-    <div className="singlePost">
+    post && (
+      <div className="singlePost">
       <div className="singlePostWrapper">
-        {post.photo && (
+        {post && post.photo && (
           <img src={PF + post.photo} alt="" className="singlePostImg" />
         )}
         {updateMode ? (
@@ -70,8 +79,8 @@ export default function SinglePost() {
           />
         ) : (
           <h1 className="singlePostTitle">
-            {title}
-            {post.username === user?.username && (
+            {post.title}
+            {post && post.username === user?.username && (
               <div className="singlePostEdit">
                 <i
                   className="singlePostIcon far fa-edit"
@@ -105,5 +114,6 @@ export default function SinglePost() {
         )}
       </div>
     </div>
-  );
+    )
+  )
 }

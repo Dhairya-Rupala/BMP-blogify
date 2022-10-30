@@ -1,15 +1,22 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./write.css";
 import axios from "axios";
 import { Context } from "../../context/Context";
 import QuillEditor from "../../components/quillEditor/QuillEditor";
 
 
-export default function Write() {
+export default function Write({onAction}) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
   const { user } = useContext(Context);
+
+  useEffect(() => {
+    onAction({
+      type: "UPDATE_TAB",
+      payload:"WRITE"
+    })
+  })
 
   const handleSubmit = async (e) => {
     e.preventDefault();
