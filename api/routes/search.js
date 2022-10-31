@@ -3,29 +3,36 @@ const Post = require("../models/Post");
 
 //GET SEARCHED POSTS
 router.get("/", async (req, res) => {
-    let posts;
-    console.log(req.query.searchTitle)
-    if (!req.query.searchTitle) {
-        try {
-            posts = await Post.find()
-            res.status(200).json(posts)
-            return;
-        }
-        catch (err) {
-            res.status(500).json(err)
-        }
-    }
+  let posts;
+  let searchTitle = req.query.searchTitle;
   try {
-    posts = await Post.find({
-        $text: {
-            $search:req.query.searchTitle
+    if (searchTitle == "") {
+      try {
+        const filteredPosts = await Post.find();
+        res.status(200).json(filteredPosts)
+        return;
+      }
+      catch (err) {
+        res.status(500).json(err)
+        return;
+      }
+    }
+    const filteredPosts = await Post.aggregate([
+      {
+        "$search": {
+          "index": "searchTitle",
+          "wildcard": {
+            "query": `*${searchTitle}*`,
+            "path":"title"
+          }
         }
-    });
-    console.log(posts)
-    res.status(200).json(posts);
+      }
+    ])
+    res.status(200).json(filteredPosts)
     return;
-  } catch (err) {
-    res.status(500).json(err);
+  }
+  catch (err) {
+    res.status(500).json("Can Not Fetch the posts")
     return;
   }
 });

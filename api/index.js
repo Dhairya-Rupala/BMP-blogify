@@ -29,7 +29,7 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
-const searchRoute = require("./routes/search")
+const searchRoute = require("./routes/search");
 
 // using the json middleware 
 app.use(express.json());
@@ -60,6 +60,7 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/search", searchRoute);
+
 
 // server at port 5000
 app.listen("5000", () => {

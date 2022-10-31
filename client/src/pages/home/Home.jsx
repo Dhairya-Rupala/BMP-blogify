@@ -6,7 +6,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import "./home.css";
 import { useLocation } from "react-router";
 
-export default function Home({posts,onAction}) {
+export default function Home({posts,onAction,setSearch}) {
   const { search } = useLocation();
   useEffect(() => {
     onAction({
@@ -23,7 +23,7 @@ export default function Home({posts,onAction}) {
     <>
       <div className="home">
         <Posts posts={posts} />
-        <Sidebar setPosts={()=>{}} />
+          <Sidebar setSearch={setSearch} />
       </div>
     </>
   );

@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import SearchBar from '../searchBar/SearchBar';
 import ChevronRight from 'baseui/icon/chevron-right'
 import "./sidebar.css";
 import { useLocation } from "react-router";
+import SearchBar from "../searchBar/SearchBar";
 
 const routeCreater = (search,category) => {
   let route;
@@ -21,7 +21,7 @@ const routeCreater = (search,category) => {
   
 }
 
-export default function Sidebar({setPosts}) {
+export default function Sidebar({setSearch}) {
   const [cats, setCats] = useState([]);
   const { search } = useLocation();
   useEffect(() => {
@@ -30,14 +30,13 @@ export default function Sidebar({setPosts}) {
       setCats(res.data);
     };
     getCats();
-  }, []);
-  // search+`&cat=${c.name}`
+  });
   return (
     <div className="sidebar">
       <div className="sidebarItem">
         <div className="sidebarTitle">SEARCH OR FILTER POSTS</div>
         <div className="sidebarList">
-          <SearchBar setPosts={setPosts} />
+          <SearchBar setSearch={setSearch} />
         </div>
       </div>
       <div className="sidebarItem">

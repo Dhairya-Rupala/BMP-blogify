@@ -1,5 +1,4 @@
 .sidebar {
-  flex: 3;
   margin: 20px;
   padding-bottom: 30px;
   background-color: #fdfbfb;
@@ -8,6 +7,7 @@
   flex-direction: column;
   gap: 30px;
   align-items: center;
+  width: 23vw;
 }
  
 .sidebarItem {
@@ -15,10 +15,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0;
 }
 
 .sidebarTitle {
-  margin: 10px;
+  margin: 10px 0px;
   padding: 5px;
   width: 80%;
   border-top: 1px solid #a7a4a4;
@@ -37,7 +38,7 @@
 }
 
 .sidebarItem > p {
-  padding: 30px;
+  padding: 10px;
 }
  
 .sidebarList {

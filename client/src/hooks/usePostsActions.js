@@ -1,10 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const usePostActions = () => {
     const [posts, setPosts] = useState([]);
     const [singlePost, setSinglePost] = useState({});
     const [currentTab, setCurrentTab] = useState("HOME");
+    const [search, setSearch] = useState('');
+
+    // need to be optimized and the case of category and the username 
+    useEffect(() => {
+        console.log("Ran the effect brother...")
+        const fetchFilteredPosts = async () => {
+            let filteredPosts = await axios.get("/search", {
+                params: {
+                    searchTitle: search
+                }
+            });
+            filteredPosts = filteredPosts.data;
+            const currentRoute = window.location.href;
+            if(!currentRoute.includes("cat") && !currentRoute.includes("user"))
+                setPosts(filteredPosts)
+            else {
+                let populatedPosts = [];
+                for (let post of posts) {
+                    for (let filtered_post of filteredPosts) {
+                        if (post._id == filtered_post._id) {
+                            populatedPosts.push(post)
+                        }
+                    }
+                }
+                setPosts(populatedPosts)
+            }
+        }
+        fetchFilteredPosts();
+    },[search])
 
     const onSetPosts = async (search) => {
         const fetchPosts = async () => {
@@ -72,9 +101,10 @@ const usePostActions = () => {
         state: {
             posts,
             singlePost,
-            currentTab
+            currentTab,
         },
         onAction,
+        setSearch
     })
 }
 
