@@ -85,13 +85,17 @@ router.get("/", async (req, res) => {
   const catName = req.query.cat;
   try {
     let posts;
-    if (username) {
+    if (username && catName) {
+      posts = await Post.find({
+        username: username,
+        categories:catName
+      })
+    }
+    else if (username) {
       posts = await Post.find({ username });
     } else if (catName) {
       posts = await Post.find({
-        categories: {
-          $in: [catName],
-        },
+        categories:catName
       });
     } else {
       posts = await Post.find();

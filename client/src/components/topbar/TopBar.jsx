@@ -1,13 +1,37 @@
-// TOPBAR component
-
-import { useContext,useEffect } from "react";
+// libs
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
+import { useLocation } from "react-router";
+// styles 
 import "./topbar.css";
+
+
+
+// helper function for creating the dynamic route 
+const routeCreater = (search,username) => {
+  let route;
+  if (search == "") route = `/?user=${username}`;
+  else {
+    if (search.includes("cat")) route = search + `&user=${username}`
+    else route = `/?user=${username}`
+  }
+  return route;
+}
 
 export default function TopBar({ currentTab,onAction }) {
   
-   useEffect(() => {
+  // fetching the search query from the current URL 
+  const { search } = useLocation();
+
+  // fetching the user and dispatch from the context 
+  const { user, dispatch } = useContext(Context);
+
+  // path for the multer storage 
+  const PF = "http://localhost:5000/images/"
+
+  // updating the current tab when the search changes
+  useEffect(() => {
     const path = window.location.href;
     let targetTab = "HOME";
     if (path.includes("write")) targetTab = "WRITE"
@@ -18,10 +42,7 @@ export default function TopBar({ currentTab,onAction }) {
     })
   });
 
-  // getting the user and the dispatch from the context
-  const { user, dispatch } = useContext(Context);
-  const PF = "http://localhost:5000/images/"
-
+  // function handling logout 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
   };
@@ -53,7 +74,7 @@ export default function TopBar({ currentTab,onAction }) {
           </li>
           {/* If the user exists then and only then show the my posts option */}
           {user && <li className="topListItem">
-            <Link to={`/?user=${user.username}`} className={currentTab=="MY POSTS"?"link active":"link"}>
+            <Link to={routeCreater(search,user.username)} className={currentTab=="MY POSTS"?"link active":"link"}>
               MY POSTS
             </Link>
           </li>

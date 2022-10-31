@@ -4,7 +4,7 @@ import { Context } from "../../context/Context";
 import axios from "axios";
 import { Input } from "baseui/input";
 import { Button, SIZE } from "baseui/button";
-import {toaster, ToasterContainer,PLACEMENT} from 'baseui/toast';
+import {toaster} from 'baseui/toast';
 
 const Profile = () => {
   // fetching the user and the dispatch from the context 

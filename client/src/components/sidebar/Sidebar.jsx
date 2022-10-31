@@ -6,15 +6,24 @@ import ChevronRight from 'baseui/icon/chevron-right'
 import "./sidebar.css";
 import { useLocation } from "react-router";
 
-const routeCreater = (search) => {
-  console.log(search.split('&'));
+const routeCreater = (search,category) => {
+  let route;
+  if (search == "") {
+    route = `/?cat=${category.name}`
+  }
+  else {
+    if(search.includes("user"))
+      route = search + `&cat=${category.name}`
+    else 
+      route = `/?cat=${category.name}`  
+  }
+  return route;
   
 }
 
 export default function Sidebar({setPosts}) {
   const [cats, setCats] = useState([]);
   const { search } = useLocation();
-  routeCreater(search);
   useEffect(() => {
     const getCats = async () => {
       const res = await axios.get("/categories");
@@ -22,6 +31,7 @@ export default function Sidebar({setPosts}) {
     };
     getCats();
   }, []);
+  // search+`&cat=${c.name}`
   return (
     <div className="sidebar">
       <div className="sidebarItem">
@@ -34,7 +44,7 @@ export default function Sidebar({setPosts}) {
         <div className="sidebarTitle">CATEGORIES</div>
         <div className="sidebarList">
           {cats.map((c,index) => (
-            <Link to={search+`&cat=${c.name}`} className="link" key={index}>
+            <Link to={routeCreater(search,c)} className="link" key={index}>
               <ChevronRight/>
             <span className="sidebarListItem">{c.name}</span>
             </Link>
