@@ -1,6 +1,26 @@
 // Model for the users 
 
 const mongoose = require("mongoose");
+
+const PhoneNumberSchema = new mongoose.Schema({
+  label: {
+    type: String,
+    required:true
+  },
+  id: {
+    type: String,
+    required:true
+  },
+  dialCode: {
+    type: String,
+    required:true
+  },
+  phone: {
+    type: String,
+    required:true
+  }
+})
+
 const UserSchema = new mongoose.Schema(
   {
     username: {
@@ -16,6 +36,10 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
+    },
+    phoneNumber: {
+      type: [PhoneNumberSchema],
+      required:false
     },
     batch: {
       type: Number,

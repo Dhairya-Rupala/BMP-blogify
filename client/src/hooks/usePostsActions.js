@@ -9,7 +9,6 @@ const usePostActions = () => {
 
     // need to be optimized and the case of category and the username 
     useEffect(() => {
-        console.log("Ran the effect brother...")
         const fetchFilteredPosts = async () => {
             let filteredPosts = await axios.get("/search", {
                 params: {
@@ -37,8 +36,21 @@ const usePostActions = () => {
 
     const onSetPosts = async (search) => {
         const fetchPosts = async () => {
-            const fetchedPosts = await axios.get("/posts" + search);
-            setPosts(fetchedPosts.data);
+            let fetchedPosts = await axios.get("/posts" + search);
+            fetchedPosts = fetchedPosts.data;
+            if (posts.length != 0) {
+                let populatedPosts = [];
+                for (let post of posts) {
+                    for (let fetched_post of fetchedPosts) {
+                        if (post._id == fetched_post._id) {
+                            populatedPosts.push(post)
+                        }
+                    }
+                }
+                setPosts(populatedPosts)
+            }
+            else
+                setPosts(fetchedPosts);
         }
         await fetchPosts();
     }

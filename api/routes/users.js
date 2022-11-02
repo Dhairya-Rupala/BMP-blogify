@@ -3,14 +3,45 @@ const User = require("../models/User");
 const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 
+const password_validator = (passwd) => {
+  return passwd.length >= 8;
+}
+
+const phn_validator = (phn) => {
+  phn = phn.replace(/\D/g, ''); // get rid of all non-digits
+    if (phn.length == 10) {
+        return true;
+    }
+    return false;
+}
+
 //UPDATE
 router.put("/:id", async (req, res) => {
   if (req.body.userId === req.params.id) {
     if (req.body.password) {
+
+      // verifying the password length 
+      if (!password_validator(req.body.passwd)) {
+        res.status(400).json("The password should contain 8 or more characters")
+        return;
+      }
       const salt = await bcrypt.genSalt(10);
       req.body.password = await bcrypt.hash(req.body.password, salt);
     }
     try {
+      // checking if the username is empty or not 
+      if (req.body.username == "" || !req.body.username) {
+        res.status(400).json("Username can not be empty")
+        return;
+      }
+
+      if (!!req.body.phoneNumber) {
+        const phn = req.body.phoneNumber.phone;
+        if (!phn_validator(phn)) {
+          res.status(400).json("Please Enter correct phone number")
+          return;
+        }
+      }
       const updatedUser = await User.findByIdAndUpdate(
         req.params.id,
         {
