@@ -1,4 +1,4 @@
-// Model for the users 
+// Schema for the Users and PhoneNumbers 
 
 const mongoose = require("mongoose");
 

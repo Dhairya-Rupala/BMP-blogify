@@ -3,12 +3,13 @@ import "./write.css";
 import axios from "axios";
 import { Context } from "../../context/Context";
 import QuillEditor from "../../components/quillEditor/QuillEditor";
+import { Select } from "baseui/select";
 
-
-export default function Write({onAction}) {
+export default function Write({onAction,cats}) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
+  const [cat,setCat] = useState([])
   const { user } = useContext(Context);
 
   useEffect(() => {
@@ -16,7 +17,7 @@ export default function Write({onAction}) {
       type: "UPDATE_TAB",
       payload:"WRITE"
     })
-  })
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +25,7 @@ export default function Write({onAction}) {
       username: user.username,
       title,
       desc,
+      categories:cat[0].label,
     };
     if (file) {
       const data =new FormData();
@@ -64,6 +66,15 @@ export default function Write({onAction}) {
             onChange={e=>setTitle(e.target.value)}
           />
         </div>
+        <div className="categorySelectContainer">
+          <Select
+            options={cats}
+            value={cat}
+          placeholder="Select Post Category"
+          onChange={params => setCat(params.value)}
+          />
+        </div>
+
         <div>
           <QuillEditor desc={desc} setDesc={setDesc} onSubmit={handleSubmit}
             buttonText="Publish"

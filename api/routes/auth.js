@@ -14,12 +14,23 @@ router.post("/register", async (req, res) => {
       email: req.body.email,
       password: hashedPass,
     });
+    const userWithEmail = await User.find({ email: req.body.email })
+    if (userWithEmail.length!=0) {
+      res.status(500).json("Email Already Exists")
+      return;
+    }
+
+    const userWithUserName = await User.find({ username: req.body.username })
+    if (userWithUserName.length!=0) {
+      res.status(500).json("Username already Exists")
+      return;
+    }
 
     const user = await newUser.save();
     res.status(200).json(user);
     return;
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json("Something Went Wrong");
     return;
   }
 });
@@ -31,7 +42,7 @@ router.post("/login", async (req, res) => {
     if (!user) {
             res.status(500).json("Please Enter valid username")
             return;
-        }
+    }
 
     // if the user is found 
         const validated = await bcrypt.compare(req.body.password, user.password)
@@ -41,11 +52,10 @@ router.post("/login", async (req, res) => {
         }
 
     const { password, ...others } = user._doc;
-    console.log(others)
     res.status(200).json(others);
     return;
   } catch (err) {
-    res.status(500).json(err);
+    res.status(500).json("Something Went wrong");
     return;
   }
 });

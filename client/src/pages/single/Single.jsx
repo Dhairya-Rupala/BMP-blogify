@@ -1,12 +1,10 @@
 import "./single.css";
-import Sidebar from "../../components/sidebar/Sidebar";
 import SinglePost from "../../components/singlePost/SinglePost";
 
-export default function Single({ post, onAction }) {
-  console.log(post);
+export default function Single({ cats,onAction }) {
   return (
     <div className="single">
-      <SinglePost post={post} onAction={onAction}/>
+      <SinglePost cats={cats} onAction={onAction} />
     </div>
   );
 }

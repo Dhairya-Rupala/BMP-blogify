@@ -3,9 +3,10 @@ const Post = require("../models/Post");
 
 //GET SEARCHED POSTS
 router.get("/", async (req, res) => {
-  let posts;
   let searchTitle = req.query.searchTitle;
   try {
+
+    // if the searchTitle is empty then return all the posts
     if (searchTitle == "") {
       try {
         const filteredPosts = await Post.find();
@@ -13,10 +14,12 @@ router.get("/", async (req, res) => {
         return;
       }
       catch (err) {
-        res.status(500).json(err)
+        res.status(500).json("Something Went Wrong")
         return;
       }
     }
+
+    // searching the posts with the search index 
     const filteredPosts = await Post.aggregate([
       {
         "$search": {

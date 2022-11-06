@@ -3,11 +3,23 @@ import axios from 'axios';
 
 const usePostActions = () => {
     const [posts, setPosts] = useState([]);
-    const [singlePost, setSinglePost] = useState({});
     const [currentTab, setCurrentTab] = useState("HOME");
+    const [cats,setCats] = useState([])
     const [search, setSearch] = useState('');
+    
+    useEffect(() => {
+        const fetchCats = async () => {
+            const res = await axios.get("/categories");
+            res.data.map((cat) => {
+                cats.push({
+                    id: cat.name,
+                    label:cat.name
+                })
+            })
+        }
+        fetchCats();
+    },[]);
 
-    // need to be optimized and the case of category and the username 
     useEffect(() => {
         const fetchFilteredPosts = async () => {
             let filteredPosts = await axios.get("/search", {
@@ -55,17 +67,9 @@ const usePostActions = () => {
         await fetchPosts();
     }
 
-    const onSetSinglePost = async (search) => {
-        const fetchPost = async () => {
-            const fetchedPost = await axios.get("/posts/" + search);
-            setSinglePost(fetchedPost.data);
-        }
-        await fetchPost();
-    }
-
-    const onDeleteSinglePost = async (username) => {
+    const onDeleteSinglePost = async ({username,id}) => {
         const deletePost = async () => {
-            await axios.delete(`/posts/${singlePost._id}`, {
+            await axios.delete(`/posts/${id}`, {
                 data: { username},
             });
         }
@@ -73,26 +77,19 @@ const usePostActions = () => {
         setSinglePost({});
     }
 
-    const onUpdateSinglePost = async (updatedPostData) => {
+    const onUpdateSinglePost = async ({data,id}) => {
         const updatePost = async () => {
-            await axios.put(`/posts/${post._id}`, {
-                ...updatedPostData
+            await axios.put(`/posts/${id}`, {
+                ...data
             });
         }
         await updatePost();
-        setSinglePost({
-            ...singlePost,
-            ...updatedPostData
-        })
     }
 
     const onAction = (action) => {
         switch (action.type) {
             case "SET_POSTS":
                 onSetPosts(action.payload);
-                break;
-            case "SET_SINGLE_POST":
-                onSetSinglePost(action.payload);
                 break;
             case "DELETE_SINGLE_POST":
                 onDeleteSinglePost(action.payload);
@@ -112,8 +109,8 @@ const usePostActions = () => {
     return ({
         state: {
             posts,
-            singlePost,
             currentTab,
+            cats
         },
         onAction,
         setSearch

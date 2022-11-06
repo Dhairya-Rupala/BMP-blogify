@@ -28,14 +28,14 @@ function App() {
       <TopBar currentTab={state.currentTab} onAction={onAction} />
       <Switch>
         <Route exact path="/">
-          {user ? <Home posts={state.posts} onAction={onAction} setSearch={setSearch} /> : <Login />}
+          {user ? <Home posts={state.posts} onAction={onAction} setSearch={setSearch} cats={state.cats} /> : <Login />}
         </Route>
         <Route path="/register">{user ? <Home posts={state.posts} onAction={onAction} setSearch={setSearch} /> : <Register />}</Route>
         <Route path="/login">{user ? <Home posts={state.posts} onAction={onAction} setSearch={setSearch} /> : <Login />}</Route>
-        <Route path="/write">{user ? <Write onAction={onAction} /> : <Register />}</Route>
+        <Route path="/write">{user ? <Write onAction={onAction} cats={ state.cats} /> : <Register />}</Route>
         <Route path="/settings">{user ? <Profile /> : <Register />}</Route>
         <Route path="/post/:postId">
-          <Single post={state.singlePost} onAction={onAction} />
+          <Single cats={state.cats} onAction={onAction} />
         </Route>
       </Switch>
     </Router>

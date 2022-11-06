@@ -9,28 +9,20 @@ import SearchBar from "../searchBar/SearchBar";
 const routeCreater = (search,category) => {
   let route;
   if (search == "") {
-    route = `/?cat=${category.name}`
+    route = `/?cat=${category}`
   }
   else {
     if(search.includes("user"))
-      route = search + `&cat=${category.name}`
+      route = search + `&cat=${category}`
     else 
-      route = `/?cat=${category.name}`  
+      route = `/?cat=${category}`  
   }
   return route;
   
 }
 
-export default function Sidebar({setSearch}) {
-  const [cats, setCats] = useState([]);
+export default function Sidebar({setSearch,cats}) {
   const { search } = useLocation();
-  useEffect(() => {
-    const getCats = async () => {
-      const res = await axios.get("/categories");
-      setCats(res.data);
-    };
-    getCats();
-  });
   return (
     <div className="sidebar">
       <div className="sidebarItem">
@@ -43,9 +35,9 @@ export default function Sidebar({setSearch}) {
         <div className="sidebarTitle">CATEGORIES</div>
         <div className="sidebarList">
           {cats.map((c,index) => (
-            <Link to={routeCreater(search,c)} className="link" key={index}>
+            <Link to={routeCreater(search,c.label)} className="link" key={index}>
               <ChevronRight/>
-            <span className="sidebarListItem">{c.name}</span>
+            <span className="sidebarListItem">{c.label}</span>
             </Link>
           ))}
         </div>

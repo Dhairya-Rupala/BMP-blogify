@@ -1,4 +1,5 @@
-// Model for the categories e.g. Interview Experiences, Querries, Blogs
+// Schema for the post category 
+// e.g. Interview Experience, Blogs, Querries etc
 
 const mongoose = require("mongoose");
 const CategorySchema = new mongoose.Schema(

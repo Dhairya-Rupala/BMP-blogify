@@ -1,4 +1,4 @@
-// Model for the posts
+// Schema for the posts
 
 const mongoose = require("mongoose");
 const PostSchema = new mongoose.Schema(
@@ -21,7 +21,7 @@ const PostSchema = new mongoose.Schema(
     },
     categories: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   { timestamps: true }

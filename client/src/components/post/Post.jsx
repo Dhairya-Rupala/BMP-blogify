@@ -11,11 +11,6 @@ export default function Post({ post }) {
         <img className="postImg" src={post.photo?PF + post.photo:PF+"DAIICT_LOGO.png"} alt="" />
       </div>
       <div className="postInfo">
-        {/* <div className="postCats">
-          {post.categories.map((c) => (
-            <span className="postCat">{c.name}</span>
-          ))}
-        </div> */}
           <span className="postTitle">{post.title}</span>
         <hr />
         <span className="postDate">
