@@ -20,22 +20,21 @@ function App() {
   
   // fetching user and calling postActions hooks
   const { user } = useContext(Context);
-  const { state, onAction,setSearch } = usePostActions();
- 
+  const { state,setTitleSearch } = usePostActions();
 
   return (
     <Router>
-      <TopBar currentTab={state.currentTab} onAction={onAction} />
+      <TopBar titleSearch={ state.titleSearch } />
       <Switch>
         <Route exact path="/">
-          {user ? <Home posts={state.posts} onAction={onAction} setSearch={setSearch} cats={state.cats} /> : <Login />}
+          {user ? <Home cats={state.cats} setTitleSearch={setTitleSearch} titleSearch={state.titleSearch}/> : <Login />}
         </Route>
-        <Route path="/register">{user ? <Home posts={state.posts} onAction={onAction} setSearch={setSearch} /> : <Register />}</Route>
-        <Route path="/login">{user ? <Home posts={state.posts} onAction={onAction} setSearch={setSearch} /> : <Login />}</Route>
-        <Route path="/write">{user ? <Write onAction={onAction} cats={ state.cats} /> : <Register />}</Route>
+        <Route path="/register">{user ? <Home titleSearch={state.titleSearch} setTitleSearch={setTitleSearch} cats={state.cats}/> : <Register />}</Route>
+        <Route path="/login">{user ? <Home titleSearch={state.titleSearch} setTitleSearch={setTitleSearch} cats={state.cats}/> : <Login />}</Route>
+        <Route path="/write">{user ? <Write cats={ state.cats} /> : <Register />}</Route>
         <Route path="/settings">{user ? <Profile /> : <Register />}</Route>
         <Route path="/post/:postId">
-          <Single cats={state.cats} onAction={onAction} />
+          <Single cats={state.cats}/>
         </Route>
       </Switch>
     </Router>

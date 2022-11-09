@@ -4,20 +4,14 @@ import axios from "axios";
 import { Context } from "../../context/Context";
 import QuillEditor from "../../components/quillEditor/QuillEditor";
 import { Select } from "baseui/select";
+import { toaster } from 'baseui/toast';
 
-export default function Write({onAction,cats}) {
+export default function Write({cats}) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
   const [cat,setCat] = useState([])
   const { user } = useContext(Context);
-
-  useEffect(() => {
-    onAction({
-      type: "UPDATE_TAB",
-      payload:"WRITE"
-    })
-  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +19,7 @@ export default function Write({onAction,cats}) {
       username: user.username,
       title,
       desc,
-      categories:cat[0].label,
+      categories:cat!=[]?cat[0].label:"Blogs",
     };
     if (file) {
       const data =new FormData();
@@ -35,12 +29,19 @@ export default function Write({onAction,cats}) {
       newPost.photo = filename;
       try {
         await axios.post("/upload", data);
-      } catch (err) {}
+      } catch (err) {
+        toaster.info(err.response.data)
+      }
     }
     try {
       const res = await axios.post("/posts", newPost);
       window.location.replace("/post/" + res.data._id);
-    } catch (err) {}
+    } catch (err) {
+      if(err.response.status==413)
+        toaster.info("Content is too large")
+      else
+        toaster.info(err.response.data)
+    }
   };
   return (
     <div className="write">

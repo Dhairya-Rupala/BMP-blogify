@@ -1,6 +1,19 @@
 // Schema for the posts
 
 const mongoose = require("mongoose");
+const CommentSchema = new mongoose.Schema(
+  {
+    cmt_text: {
+      type: String,
+      required: true,
+    },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  { timestamps: true }
+);
 const PostSchema = new mongoose.Schema(
   {
     title: {
@@ -23,6 +36,11 @@ const PostSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    likes : [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'User'
+    }],
+    comments: [CommentSchema],
   },
   { timestamps: true }
 );

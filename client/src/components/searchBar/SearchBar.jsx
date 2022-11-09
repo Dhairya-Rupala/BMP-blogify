@@ -1,10 +1,10 @@
 import DebouncedInput from '../debouncedInput/DebouncedInput';
 import './searchbar.css';
 
-const SearchBar = ({setSearch}) => {
+const SearchBar = ({setTitleSearch}) => {
     return (
         <div className="searchBarContainer">
-            <DebouncedInput setSearch={setSearch}/>
+            <DebouncedInput setTitleSearch={setTitleSearch}/>
         </div>
     )
 }

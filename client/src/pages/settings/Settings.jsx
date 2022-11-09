@@ -3,6 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import { useContext, useState } from "react";
 import { Context } from "../../context/Context";
 import axios from "axios";
+import { toast } from 'react-toastify';
 
 
 export default function Settings() {
@@ -10,7 +11,6 @@ export default function Settings() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [success, setSuccess] = useState(false);
 
   const { user, dispatch } = useContext(Context);
   const PF = "http://localhost:5000/images/"
@@ -32,14 +32,17 @@ export default function Settings() {
       updatedUser.profilePic = filename;
       try {
         await axios.post("/upload", data);
-      } catch (err) {}
+      } catch (err) {
+        toast(err.respone.data)
+      }
     }
     try {
       const res = await axios.put("/users/" + user._id, updatedUser);
-      setSuccess(true);
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
+      toast("Profile Updated Successfully")
     } catch (err) {
       dispatch({ type: "UPDATE_FAILURE" });
+      toast(err.response.data)
     }
   };
   return (
@@ -86,13 +89,6 @@ export default function Settings() {
           <button className="settingsSubmit" type="submit">
             Update
           </button>
-          {success && (
-            <span
-              style={{ color: "green", textAlign: "center", marginTop: "20px" }}
-            >
-              Profile has been updated...
-            </span>
-          )}
         </form>
       </div>
       <Sidebar />

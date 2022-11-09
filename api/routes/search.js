@@ -23,7 +23,7 @@ router.get("/", async (req, res) => {
     const filteredPosts = await Post.aggregate([
       {
         "$search": {
-          "index": "searchTitle",
+          "index": "title_search",
           "wildcard": {
             "query": `*${searchTitle}*`,
             "path":"title"

@@ -9,42 +9,45 @@ import "./topbar.css";
 
 
 // helper function for creating the dynamic route 
-const routeCreater = (search,username) => {
-  let route;
-  if (search == "") route = `/?user=${username}`;
+const routeCreater = (search, username) => {
+  let route = "";
+  let advSearch = search.replace('?', "")
+  advSearch = advSearch.split('&')
+  advSearch = advSearch.filter((s) => s != '')
+  let userQuer, catQuer;
+  for (let quer of advSearch) {
+    if (quer.includes("user")) userQuer = quer.substring(5)
+    else if(quer.includes("cat")) catQuer = quer.substring(4)
+  }
+  if (userQuer && catQuer) {
+    route = `/?user=${username}&cat=${catQuer}`
+  }
+  else if (userQuer) {
+    route = `/?user=${username}`
+  }
+  else if (catQuer) {
+    route = `/?cat=${catQuer}&user=${username}`
+  }
   else {
-    if (search.includes("cat")) route = search + `&user=${username}`
-    else route = `/?user=${username}`
+    route = `/?user=${username}`
   }
   return route;
 }
 
-export default function TopBar({ currentTab,onAction }) {
+export default function TopBar({ onAction }) {
   
   // fetching the search query from the current URL 
   const { search } = useLocation();
-
   // fetching the user and dispatch from the context 
   const { user, dispatch } = useContext(Context);
 
   // path for the multer storage 
   const PF = "http://localhost:5000/images/"
 
-  // updating the current tab when the search changes
-  useEffect(() => {
-    const path = window.location.href;
-    let targetTab = "HOME";
-    if (path.includes("write")) targetTab = "WRITE"
-    else if (path.includes("user")) targetTab = "MY POSTS"
-    onAction({
-      type: "UPDATE_TAB",
-      payload: targetTab
-    })
-  });
-
   // function handling logout 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
+    localStorage.removeItem("user")
   };
 
   return (
@@ -56,25 +59,25 @@ export default function TopBar({ currentTab,onAction }) {
         <ul className="topList">
           {
             user && <li className="topListItem">
-            <Link className={currentTab=="HOME"?"link active":"link"} to="/">
+            <Link className="link" to="/">
               HOME
             </Link>
           </li>
           }
           {
             user && <li className="topListItem">
-            <Link className={currentTab=="WRITE"?"link active":"link"} to="/write">
+            <Link className="link" to="/write">
               WRITE
             </Link>
           </li>
           }
           {/* If the user is logged in then display teh LOGOUT option */}
-          <li className={currentTab=="LOGOUT"?"topListItem active":"topListItem"} onClick={handleLogout}>
+          <li className="topListItem" onClick={handleLogout}>
             {user && "LOGOUT"}
           </li>
           {/* If the user exists then and only then show the my posts option */}
           {user && <li className="topListItem">
-            <Link to={routeCreater(search,user.username)} className={currentTab=="MY POSTS"?"link active":"link"}>
+            <Link to={routeCreater(search,user.username)} className="link">
               MY POSTS
             </Link>
           </li>
@@ -92,12 +95,12 @@ export default function TopBar({ currentTab,onAction }) {
         ) : (
           <ul className="topList">
             <li className="topListItem">
-              <Link className={currentTab=="LOGIN"?"link active":"link"} to="/login">
+              <Link className="link" to="/login">
                 LOGIN
               </Link>
             </li>
             <li className="topListItem">
-              <Link className={currentTab=="REGISTER"?"link active":"link"} to="/register">
+              <Link className="link" to="/register">
                 REGISTER
               </Link>
             </li>

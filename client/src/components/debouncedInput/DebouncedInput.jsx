@@ -14,9 +14,9 @@ const OVERRIDES = {
   },
 };
 
-const DebouncedInput = ({setSearch}) => {
+const DebouncedInput = ({setTitleSearch}) => {
     const [debSearch, setDebSearch] = useState('')
-    const debouncedChange = debounce(setSearch, DEBOUNCE_DELAY)
+    const debouncedChange = debounce(setTitleSearch, DEBOUNCE_DELAY)
 
     const handleSearchChange = (e) => {
         setDebSearch(e.target.value)

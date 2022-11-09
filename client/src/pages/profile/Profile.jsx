@@ -23,8 +23,8 @@ const Profile = () => {
         dialCode:user.phoneNumber[0].dialCode
     }:undefined);
     const [phnText, setPhnText] = useState(user.phoneNumber[0]?user.phoneNumber[0].phone:'');
-    const [success, setSuccess] = useState(false);
-    console.log(user)
+    
+
   // local multer path
     const PF = "http://localhost:5000/images/"
 
@@ -46,19 +46,21 @@ const Profile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch({ type: "UPDATE_START" });
-    const updatedUser = {
-        userId: user._id,
-      username,
-      email,
-        password,
-        phoneNumber: {
-            label: country.label,
-            id: country.id,
-            dialCode: country.dialCode,
-            phone:phnText
-      },
-      batch,
+        const updatedUser = {
+            userId: user._id,
+        email,
+        batch,
         };
+        if (username != "") updatedUser.username = username;
+        if (password != "") updatedUser.password = password;
+        if (phnText != "") {
+            updatedUser.phoneNumber = {
+                label: country?.label,
+                id: country?.id,
+                dialCode: country?.dialCode,
+                phone:phnText
+            }
+        }
         
         if (file) {
       const data = new FormData();
@@ -68,12 +70,13 @@ const Profile = () => {
       updatedUser.profilePic = filename;
       try {
         await axios.post("/upload", data);
-      } catch (err) {}
+      } catch (err) {
+          toaster.info(err.response.data)
+      }
     }
       try {
           const res = await axios.put("/users/" + user._id, updatedUser);
           toaster.info('Profile Updated Successfully');
-      setSuccess(true);
       dispatch({ type: "UPDATE_SUCCESS", payload: res.data });
       } catch (err) {
           dispatch({ type: "UPDATE_FAILURE" });

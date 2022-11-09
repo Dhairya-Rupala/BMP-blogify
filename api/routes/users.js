@@ -43,7 +43,7 @@ router.put("/:id", async (req, res) => {
 
       if (!!req.body.phoneNumber) {
         const phn = req.body.phoneNumber.phone;
-        if (!phn_validator(phn)) {
+        if (phn!="" && !phn_validator(phn)) {
           res.status(400).json("Please Enter correct phone number")
           return;
         }

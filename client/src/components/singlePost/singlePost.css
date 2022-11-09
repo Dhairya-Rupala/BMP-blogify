@@ -7,6 +7,7 @@
   padding-right: 0;
   display: flex;
   flex-direction: column;
+  min-height: calc(100vh - 8vh - 200px);
 }
 
 .singlePostImg {
@@ -21,6 +22,7 @@
   margin: 10px 10px 35px 10px;
   font-family: "Lora", serif;
   font-size: 28px;
+  word-wrap: break-word;
 }
 
 .singlePostTitleInput {
@@ -68,6 +70,9 @@
   color: #666;
   font-size: 18px;
   line-height: 25px;
+  max-width: 90vw;
+  word-wrap: break-word;
+
 }
 
 .singlePostDesc::first-letter {
@@ -106,4 +111,36 @@
 .singlePostAuthCatContainer{
   display: flex;
   gap: 30px;
+}
+
+.commentTitle {
+  margin-bottom: 15px;
+}
+
+.commentInput {
+  font-size: 12px;
+  border: none;
+  padding: 20px;
+  border: 1px solid rgb(177, 177, 177);
+  width: 75vw;
+  border-radius: 20px;
+}
+
+.commentInput:focus {
+  border: 1px solid black;
+}
+
+.commentSubmit {
+  margin-left: 4%;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  padding: 10px 15px;
+}
+
+.commentSubmit:hover {
+  background-color: rgb(64, 64, 64);
 }

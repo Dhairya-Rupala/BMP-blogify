@@ -1,40 +1,51 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import ChevronRight from 'baseui/icon/chevron-right'
 import "./sidebar.css";
 import { useLocation } from "react-router";
 import SearchBar from "../searchBar/SearchBar";
+import { useContext } from "react";
+import { Context } from "../../context/Context";
 
-const routeCreater = (search,category) => {
-  let route;
-  if (search == "") {
+const routeCreater = (search, category) => {
+  if (!category) return "";
+  let route = "";
+  let advSearch = search.replace('?', "")
+  advSearch = advSearch.split('&')
+  advSearch = advSearch.filter((s) => s != '')
+  let userQuer, catQuer;
+  for (let quer of advSearch) {
+    if (quer.includes("user")) userQuer = quer.substring(5)
+    else if(quer.includes("cat")) catQuer = quer.substring(4)
+  }
+  if (userQuer && catQuer) {
+    route = `/?user=${userQuer}&cat=${category}`
+  }
+  else if (userQuer) {
+    route = `/?user=${userQuer}&cat=${category}`
+  }
+  else if (catQuer) {
     route = `/?cat=${category}`
   }
   else {
-    if(search.includes("user"))
-      route = search + `&cat=${category}`
-    else 
-      route = `/?cat=${category}`  
+    route = `/?cat=${category}`
   }
   return route;
-  
 }
 
-export default function Sidebar({setSearch,cats}) {
+export default function Sidebar({setTitleSearch,cats}) {
   const { search } = useLocation();
   return (
     <div className="sidebar">
       <div className="sidebarItem">
         <div className="sidebarTitle">SEARCH OR FILTER POSTS</div>
         <div className="sidebarList">
-          <SearchBar setSearch={setSearch} />
+          <SearchBar setTitleSearch={setTitleSearch} />
         </div>
       </div>
       <div className="sidebarItem">
         <div className="sidebarTitle">CATEGORIES</div>
         <div className="sidebarList">
-          {cats.map((c,index) => (
+          {cats?.map((c,index) => (
             <Link to={routeCreater(search,c.label)} className="link" key={index}>
               <ChevronRight/>
             <span className="sidebarListItem">{c.label}</span>
