@@ -1,6 +1,10 @@
+//libs
 import axios from "axios";
 import { useContext, useRef } from "react";
+import {toaster} from 'baseui/toast';
+//context and hooks
 import { Context } from "../../context/Context";
+//styles
 import "./login.css";
 
 export default function Login() {
@@ -21,9 +25,13 @@ export default function Login() {
         username: userRef.current.value,
         password: passwordRef.current.value,
       });
+      console.log(res.data)
       dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+      toaster.info("Successfully Logged In")
+      // window.location.replace("");
     } catch (err) {
       dispatch({ type: "LOGIN_FAILURE" });
+      toaster.info("Please check the login details")
     }
   };
 

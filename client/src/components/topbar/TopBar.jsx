@@ -1,18 +1,53 @@
-// TOPBAR component
-
-import { useContext } from "react";
+// libs
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
+import { useLocation } from "react-router";
+// styles 
 import "./topbar.css";
 
-export default function TopBar() {
 
-  // getting the user and the dispatch from the context
+
+// helper function for creating the dynamic route 
+const routeCreater = (search, username) => {
+  let route = "";
+  let advSearch = search.replace('?', "")
+  advSearch = advSearch.split('&')
+  advSearch = advSearch.filter((s) => s != '')
+  let userQuer, catQuer;
+  for (let quer of advSearch) {
+    if (quer.includes("user")) userQuer = quer.substring(5)
+    else if(quer.includes("cat")) catQuer = quer.substring(4)
+  }
+  if (userQuer && catQuer) {
+    route = `/?user=${username}&cat=${catQuer}`
+  }
+  else if (userQuer) {
+    route = `/?user=${username}`
+  }
+  else if (catQuer) {
+    route = `/?cat=${catQuer}&user=${username}`
+  }
+  else {
+    route = `/?user=${username}`
+  }
+  return route;
+}
+
+export default function TopBar({ onAction }) {
+  
+  // fetching the search query from the current URL 
+  const { search } = useLocation();
+  // fetching the user and dispatch from the context 
   const { user, dispatch } = useContext(Context);
+
+  // path for the multer storage 
   const PF = "http://localhost:5000/images/"
 
+  // function handling logout 
   const handleLogout = () => {
     dispatch({ type: "LOGOUT" });
+    localStorage.removeItem("user")
   };
 
   return (
@@ -40,6 +75,13 @@ export default function TopBar() {
           <li className="topListItem" onClick={handleLogout}>
             {user && "LOGOUT"}
           </li>
+          {/* If the user exists then and only then show the my posts option */}
+          {user && <li className="topListItem">
+            <Link to={routeCreater(search,user.username)} className="link">
+              MY POSTS
+            </Link>
+          </li>
+          }
         </ul>
       </div>
       {/* If the user is there then and only then show the settings

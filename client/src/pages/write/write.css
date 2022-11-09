@@ -61,3 +61,8 @@
   bottom: 100px;
   right: 170px;
 }
+
+.categorySelectContainer{
+  width: 30vw;
+  margin:15px 0px;
+}

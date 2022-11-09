@@ -30,7 +30,7 @@ const formats = [
 
 
 const QuillEditor = ({desc,setDesc,onSubmit,buttonText}) => {
-    return (
+    return ( 
         <div className="quillContainer">
             <ReactQuill
                 className='editor'

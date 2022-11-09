@@ -4,28 +4,47 @@ import { useEffect, useState } from "react";
 import Posts from "../../components/posts/Posts";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./home.css";
-import axios from "axios";
 import { useLocation } from "react-router";
+import axios from 'axios';
 
-export default function Home() {
+const routeCreater = (search, titleSearch) => {
+  let route = "/posts"+search;
+  if (titleSearch.trim() == "") {
+    route = "/posts" + search;
+  }
+  else {
+    if (search == "") {
+      route = "/posts" + search + `?searchTitle=${titleSearch}`;
+    }
+    else {
+      route = "/posts" + search + `&searchTitle=${titleSearch}`;
+    }
+    
+  }
+  return route;
+}
 
-  // state for storing all the posts 
-  const [posts, setPosts] = useState([]);
+
+export default function Home({ cats,setTitleSearch,titleSearch }) {
+  const [posts, setPosts] = useState([])
   const { search } = useLocation();
-
   useEffect(() => {
+    console.log("Another Request")
     const fetchPosts = async () => {
-      const res = await axios.get("/posts" + search);
+      const res = await axios.get(routeCreater(search,titleSearch));
       setPosts(res.data);
     };
     fetchPosts();
-  }, [search,posts]);
+    return () => {
+      setPosts([])
+    }
+  }, [search,titleSearch]);
 
   return (
     <>
       <div className="home">
         <Posts posts={posts} />
-        <Sidebar setPosts={setPosts} />
+        <Sidebar setTitleSearch={setTitleSearch} cats={cats} />
       </div>
     </>
   );

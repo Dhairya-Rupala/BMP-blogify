@@ -1,4 +1,5 @@
 // creating express server
+const cors = require("cors");
 const express = require("express");
 const app = express();
 
@@ -13,7 +14,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
-    useFindAndModify:true
+    useFindAndModify:false
   })
   .then(console.log("Successfully connected to the database..."))
   .catch((err) => console.log(err));
@@ -29,12 +30,13 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
-const searchRoute = require("./routes/search")
+const searchRoute = require("./routes/search");
 
 // using the json middleware 
 app.use(express.json());
 // using the multer for storing the images on disk storage
 app.use("/images", express.static(path.join(__dirname, "/images")));
+app.use(cors());
 
 
 // setting up the configuration for the multer
@@ -60,6 +62,7 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/search", searchRoute);
+
 
 // server at port 5000
 app.listen("5000", () => {

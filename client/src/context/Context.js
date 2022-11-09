@@ -1,5 +1,6 @@
 import { createContext, useEffect, useReducer } from "react";
 import Reducer from "./Reducer";
+import { useContext } from "react";
 
 // defining the initial state 
 const INITIAL_STATE = {
@@ -36,3 +37,8 @@ export const ContextProvider = ({ children }) => {
     </Context.Provider>
   );
 };
+
+const useGlobalContext = ()=>{
+    return useContext(Context);
+}
+export default useGlobalContext;
