@@ -61,9 +61,14 @@
   margin-bottom: 25px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   font-size: 16px;
   font-family: "Varela Round", sans-serif;
   color: #b39656;
+}
+
+.updateCatContainer{
+  width: 230px;
 }
 
 .singlePostDesc {

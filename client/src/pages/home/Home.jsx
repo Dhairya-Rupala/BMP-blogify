@@ -29,7 +29,6 @@ export default function Home({ cats,setTitleSearch,titleSearch }) {
   const [posts, setPosts] = useState([])
   const { search } = useLocation();
   useEffect(() => {
-    console.log("Another Request")
     const fetchPosts = async () => {
       const res = await axios.get(routeCreater(search,titleSearch));
       setPosts(res.data);

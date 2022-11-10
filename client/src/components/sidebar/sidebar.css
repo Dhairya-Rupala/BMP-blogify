@@ -8,6 +8,8 @@
   gap: 30px;
   align-items: center;
   width: 23vw;
+  position: fixed;
+  right: 0px;
 }
  
 .sidebarItem {

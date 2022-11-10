@@ -1,6 +1,8 @@
 .posts{
-    flex: 9;
     display: flex;
-    flex-wrap: wrap;
-    margin: 20px;
+        flex-wrap: wrap;
+        width: 77vw;
+        margin-block: 2rem;
+        padding: 0px 30px;
+        gap: 2rem;
 }

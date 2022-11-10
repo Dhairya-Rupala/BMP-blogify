@@ -1,0 +1,50 @@
+.userImageNameWrapper{
+    display: flex;
+    gap: 30px;
+}
+
+.userImage{
+    height: 150px;
+    width: 180px;
+}
+
+.modalUserImage{
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.userInfoWrapper{
+    width: 70%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+.userNameBatchContainer,.modalUserContactInfo{
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalUserNameContainer,.modalUserEmailContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.modalUserPhoneContainer,.modalUserBatchContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.label{
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+}
+
+.modalUserName,.modalUserBatch,.modalUserPhone,.modalUserEmail{
+    font-size: 1rem;
+    font-weight: 450;
+    padding-top: 3px;
+}
