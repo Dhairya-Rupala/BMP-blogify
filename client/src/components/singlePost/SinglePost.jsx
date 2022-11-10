@@ -1,16 +1,31 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import "./singlePost.css";
 import createDOMPurify from 'dompurify'
 import QuillEditor from "../quillEditor/QuillEditor";
 import { toaster } from 'baseui/toast';
 import Comment from "../comment/Comment";
+import UserModal from "../userModal/UserModal";
+import { Select } from "baseui/select";
 
 export default function SinglePost({ cats }) {
   
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
+  const [userInfo,setUserInfo] = useState(null)
+  const onUserInfoClick = async (targetUserName) => {
+    try {
+      const targetUserInfo = await axios.get(`/users/?username=${targetUserName}`)
+      setIsUserModalOpen(true)
+      setUserInfo(targetUserInfo.data[0])
+    }
+    catch (err) {
+      toaster.info("Could not fetch the user details")
+    }
+    
+
+  }
   // fetching the location 
   const location = useLocation();
   const path = location.pathname.split("/")[2];
@@ -103,6 +118,7 @@ export default function SinglePost({ cats }) {
   };
 
   return <>
+      <UserModal modalUser={userInfo} isOpen={isUserModalOpen} setIsOpen={setIsUserModalOpen}/>
       {post && (
         <div className="singlePost">
           <div className="singlePostWrapper">
@@ -137,13 +153,25 @@ export default function SinglePost({ cats }) {
             <div className="singlePostInfo">
               <span className="singlePostAuthor">
                 Author:
-                <Link to={`/?user=${post.username}`} className="link">
+                <span onClick={()=> onUserInfoClick(post.username)}>
                   <b> {post.username}</b>
-                </Link>
+                </span>
+                  
+                
             </span>
-            <span>
+            {updateMode ?
+              <div className="updateCatContainer">
+                <Select 
+                  options={cats}
+                  value={cat}
+                  placeholder="Select category"
+                  onChange = {({value})=>setCat(value)}
+                />
+              </div> :
+              <span>
               Category: {post.categories}
-            </span>
+            </span>}
+            
               <span className="singlePostDate">
                 {new Date(post.createdAt).toDateString()}
               </span>

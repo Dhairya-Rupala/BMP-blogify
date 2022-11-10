@@ -85,4 +85,15 @@ router.get("/:id", async (req, res) => {
   }
 });
 
+
+// fetch the user with the username 
+router.get("/", async (req, res) => {
+  try {
+    const user = await User.find({ username: req.query.username })
+    return res.status(200).json(user)
+  }
+  catch (err) {
+    return res.status(500).json(err)
+  }
+})
 module.exports = router;

@@ -7,9 +7,9 @@
   align-items: center;
   justify-content: space-between;
   font-family: "Josefin Sans", sans-serif;
-  z-index: 999;
   padding:20px 20px 5px 20px;
   border-bottom: 2px solid grey;
+  z-index: 50;
 }
 
 .topLeft{
