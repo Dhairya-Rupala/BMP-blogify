@@ -18,18 +18,19 @@
 }
 
 .singlePostTitle {
-  text-align: center;
-  margin: 10px 10px 35px 10px;
+  text-align: left;
+  margin: 10px 10px 25px 0;
   font-family: "Lora", serif;
-  font-size: 28px;
+  
+  font-size: 2rem;
   word-wrap: break-word;
 }
 
 .singlePostTitleInput {
-  margin: 10px 10px 35px 10px;
+  margin: 10px 10px 20px 0;
   font-family: "Lora", serif;
   font-size: 28px;
-  text-align: center;
+  text-align: left;
   border: none;
   color: gray;
   border-bottom: 1px solid lightgray;
@@ -45,16 +46,20 @@
 }
 
 .singlePostIcon {
-  margin-left: 10px;
+  margin-left: 7px;
   cursor: pointer;
 }
 
-.singlePostIcon:first-child {
-  color: teal;
+.fa-trash-alt{
+    color: tomato;
 }
 
-.singlePostIcon:last-child {
-  color: tomato;
+.fa-whatsapp{
+    color: #0a7b6e;
+}
+
+.fa-facebook{
+    color:#4267B2;
 }
 
 .singlePostInfo {
@@ -62,9 +67,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 16px;
+  font-size: 0.7rem;
   font-family: "Varela Round", sans-serif;
-  color: #b39656;
+  border-bottom: 0.5px solid rgb(234, 234, 234);
+  color: #6D9886;
 }
 
 .updateCatContainer{
@@ -72,17 +78,16 @@
 }
 
 .singlePostDesc {
-  color: #666;
-  font-size: 18px;
+  color: #393E46;
+  font-size: 1rem;
   line-height: 25px;
   max-width: 90vw;
   word-wrap: break-word;
-
 }
 
 .singlePostDesc::first-letter {
-  margin-left: 20px;
-  font-size: 30px;
+  
+  font-size: 26px;
   font-weight: 600;
 }
 
@@ -118,8 +123,13 @@
   gap: 30px;
 }
 
+.singlePostAuthor:hover{
+    cursor: pointer;
+}
+
 .commentTitle {
   margin-bottom: 15px;
+  
 }
 
 .commentInput {
@@ -138,12 +148,12 @@
 .commentSubmit {
   margin-left: 4%;
   border: none;
-  border-radius: 10px;
+  border-radius: 100%;
   font-size: 1rem;
   background-color: black;
   color: white;
   cursor: pointer;
-  padding: 10px 15px;
+  padding: 9px 11px;
 }
 
 .commentSubmit:hover {
