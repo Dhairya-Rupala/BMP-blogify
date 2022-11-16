@@ -123,17 +123,22 @@ router.get("/", async (req, res) => {
       posts = await Post.find()
     }
     if (searchTitle) {
-      titleSearchPosts = await Post.aggregate([
-      {
-        "$search": {
-          "index": "title_search",
-          "wildcard": {
-            "query": `*${searchTitle?.trim()}*`,
-            "path": "title"
-          }
+      // titleSearchPosts = await Post.aggregate([
+      // {
+      //   "$search": {
+      //     "index": "title_search",
+      //     "wildcard": {
+      //       "query": `*${searchTitle?.trim()}*`,
+      //       "path": "title"
+      //     }
+      //   }
+      // }
+      // ])
+      titleSearchPosts = await Post.find({
+        $text: {
+          $search:searchTitle
         }
-      }
-      ])
+      })
     }
     if (searchTitle) {
       for (let i = 0; i < titleSearchPosts.length; i++){
