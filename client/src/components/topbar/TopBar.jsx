@@ -34,7 +34,7 @@ const routeCreater = (search, username) => {
   return route;
 }
 
-export default function TopBar({ onAction }) {
+export default function TopBar() {
   
   // fetching the search query from the current URL 
   const { search } = useLocation();

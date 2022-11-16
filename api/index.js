@@ -3,6 +3,7 @@ const cors = require("cors");
 const express = require("express");
 const app = express();
 
+
 // dotenv module for the process envs 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -31,6 +32,7 @@ const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const searchRoute = require("./routes/search");
+const tagsRoute = require("./routes/tags");
 
 // using the json middleware 
 app.use(express.json());
@@ -62,6 +64,7 @@ app.use("/api/users", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/search", searchRoute);
+app.use("/api/tags", tagsRoute);
 
 
 // server at port 5000

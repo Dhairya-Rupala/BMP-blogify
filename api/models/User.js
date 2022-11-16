@@ -39,16 +39,17 @@ const UserSchema = new mongoose.Schema(
     },
     phoneNumber: {
       type: [PhoneNumberSchema],
-      required:false
+      required: false
     },
     batch: {
       type: Number,
-      required:false,
+      required: false,
     },
     profilePic: {
       type: String,
       default: "",
     },
+    interestedTags: [String]
   },
   { timestamps: true }
 );

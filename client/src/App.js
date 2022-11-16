@@ -24,17 +24,17 @@ function App() {
 
   return (
     <Router>
-      <TopBar titleSearch={ state.titleSearch } />
+      <TopBar />
       <Switch>
         <Route exact path="/">
-          {user ? <Home cats={state.cats} setTitleSearch={setTitleSearch} titleSearch={state.titleSearch}/> : <Login />}
+          {user ? <Home cats={state.cats} setTitleSearch={setTitleSearch} titleSearch={state.titleSearch} /> : <Login />}
         </Route>
-        <Route path="/register">{user ? <Home titleSearch={state.titleSearch} setTitleSearch={setTitleSearch} cats={state.cats}/> : <Register />}</Route>
-        <Route path="/login">{user ? <Home titleSearch={state.titleSearch} setTitleSearch={setTitleSearch} cats={state.cats}/> : <Login />}</Route>
-        <Route path="/write">{user ? <Write cats={ state.cats} /> : <Register />}</Route>
-        <Route path="/settings">{user ? <Profile /> : <Register />}</Route>
+        <Route path="/register">{user ? <Home titleSearch={state.titleSearch} setTitleSearch={setTitleSearch} cats={state.cats}  /> : <Register />}</Route>
+        <Route path="/login">{user ? <Home titleSearch={state.titleSearch} setTitleSearch={setTitleSearch} cats={state.cats} /> : <Login />}</Route>
+        <Route path="/write">{user ? <Write cats={state.cats} allTags={state.allTags} /> : <Register />}</Route>
+        <Route path="/settings">{user ? <Profile allTags={state.allTags} /> : <Register />}</Route>
         <Route path="/post/:postId">
-          <Single cats={state.cats}/>
+          <Single cats={state.cats} allTags={state.allTags} />
         </Route>
       </Switch>
     </Router>

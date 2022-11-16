@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const usePostActions = () => {
-    const [cats,setCats] = useState([])
+    const [cats, setCats] = useState([])
+    const [allTags,setAllTags] = useState([])
     const [titleSearch, setTitleSearch] = useState('');
     
     useEffect(() => {
@@ -17,13 +18,28 @@ const usePostActions = () => {
             })
             setCats([...fetchedCats])
         }
+
+        const fetchTags = async () => {
+            const res = await axios.get("/tags");
+            let fetchedTags = []
+            res?.data[0]?.tags.map((tag) => {
+                fetchedTags.push({
+                    id: tag,
+                    label:tag
+                })
+            })
+            setAllTags([...fetchedTags])
+
+        }
         fetchCats();
+        fetchTags();
     },[]);
 
 
     return ({
         state: {
             cats,
+            allTags,
             titleSearch
         },
         setTitleSearch

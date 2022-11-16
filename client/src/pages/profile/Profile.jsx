@@ -6,8 +6,9 @@ import { Input } from "baseui/input";
 import { Button, SIZE } from "baseui/button";
 import { toaster } from 'baseui/toast';
 import { PhoneInput } from "baseui/phone-input";
+import { Select } from 'baseui/select';
 
-const Profile = () => {
+const Profile = ({allTags}) => {
   // fetching the user and the dispatch from the context 
     const { user, dispatch } = useContext(Context);
     const [file, setFile] = useState(null);
@@ -21,8 +22,9 @@ const Profile = () => {
         label: user.phoneNumber[0].label,
         id: user.phoneNumber[0].id,
         dialCode:user.phoneNumber[0].dialCode
-    }:undefined);
-    const [phnText, setPhnText] = useState(user.phoneNumber[0]?user.phoneNumber[0].phone:'');
+    } : undefined);
+    const [phnText, setPhnText] = useState(user.phoneNumber[0] ? user.phoneNumber[0].phone : '');
+    const [tags, setTags] = useState(user?.interestedTags? user.interestedTags.map((tag) => { return { id: tag, label: tag } }):[])
     
 
   // local multer path
@@ -35,6 +37,7 @@ const Profile = () => {
         setBatch(user.batch)
         setPassword('')
         setIsChanged(false)
+        setTags([])
         setCountry(user.phoneNumber[0]?{
         label: user.phoneNumber[0].label,
         id: user.phoneNumber[0].id,
@@ -46,10 +49,12 @@ const Profile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         dispatch({ type: "UPDATE_START" });
+        const interestedTags = tags.map((tag) => tag.label)
         const updatedUser = {
             userId: user._id,
         email,
-        batch,
+            batch,
+        interestedTags
         };
         if (username != "") updatedUser.username = username;
         if (password != "") updatedUser.password = password;
@@ -137,12 +142,29 @@ const Profile = () => {
                             size="compact"
                             country={country}
                             onCountryChange={({ option }) => {
+                                setIsChanged(true)
                                 setCountry(option)
                             }}
                             text={phnText}
-                            onTextChange={e => setPhnText(e.currentTarget.value)}
+                            onTextChange={e => {
+                                if(e.currentTarget.value.trim()!="") setIsChanged(true)
+                                setPhnText(e.currentTarget.value)
+                            }}
                             />
                     </div>
+            <div className="fieldContainer">
+                <div className="fieldLabel">Interested Tags</div>
+                        <Select
+                        options={allTags}
+                        value={tags}
+                        multi
+                        placeholder="Select tags"
+                            onChange={({ value }) => {
+                                setIsChanged(true)
+                                setTags(value)
+                            }}
+                    />
+            </div>
             <div className="fieldContainer">
                 <div className="fieldLabel">Batch</div>
                     <Input
@@ -173,7 +195,10 @@ const Profile = () => {
                     value={password}
                     type="password"
                     placeholder='Enter new password'
-                    onChange={e => setPassword(e.target.value)}
+                            onChange={e => {
+                                if(e.target.value.trim()!='') setIsChanged(true)
+                                setPassword(e.target.value)
+                            }}
                 />
                 </div>
                 <div className="buttonContainer">

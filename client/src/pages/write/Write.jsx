@@ -6,11 +6,12 @@ import QuillEditor from "../../components/quillEditor/QuillEditor";
 import { Select } from "baseui/select";
 import { toaster } from 'baseui/toast';
 
-export default function Write({cats}) {
+export default function Write({cats,allTags}) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
-  const [cat,setCat] = useState([])
+  const [cat, setCat] = useState([])
+  const [tags,setTags] = useState([])
   const { user } = useContext(Context);
 
   const handleSubmit = async (e) => {
@@ -19,7 +20,8 @@ export default function Write({cats}) {
       username: user.username,
       title,
       desc,
-      categories:cat!=[]?cat[0].label:"Blogs",
+      categories: cat != [] ? cat[0].label : "Blogs",
+      postTags:tags.map((tag)=>tag.label)
     };
     if (file) {
       const data =new FormData();
@@ -67,13 +69,24 @@ export default function Write({cats}) {
             onChange={e=>setTitle(e.target.value)}
           />
         </div>
-        <div className="categorySelectContainer">
-          <Select
+        <div className="categoryTagsSelectContainer">
+          <div className="categorySelect">
+            <Select
             options={cats}
             value={cat}
           placeholder="Select Post Category"
           onChange={params => setCat(params.value)}
           />
+          </div>
+          <div className="tagSelect">
+            <Select
+            options={allTags}
+            value={tags}
+            multi
+            placeholder="Select tags"
+            onChange={({value}) => setTags(value)}
+        />
+          </div>
         </div>
 
         <div>

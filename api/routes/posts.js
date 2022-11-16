@@ -135,8 +135,9 @@ router.get("/", async (req, res) => {
       // }
       // ])
       titleSearchPosts = await Post.find({
-        $text: {
-          $search:searchTitle
+        title: {
+          $regex: searchTitle,
+          $options:"$i"
         }
       })
     }

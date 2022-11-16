@@ -67,10 +67,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.7rem;
+  font-size: 0.9rem;
   font-family: "Varela Round", sans-serif;
   border-bottom: 0.5px solid rgb(234, 234, 234);
-  color: #6D9886;
+  color: #568b75;
 }
 
 .updateCatContainer{
@@ -123,6 +123,11 @@
   gap: 30px;
 }
 
+.singlePostAuthor{
+  display: flex;
+  gap: 5px;
+}
+
 .singlePostAuthor:hover{
     cursor: pointer;
 }
@@ -158,4 +163,42 @@
 
 .commentSubmit:hover {
   background-color: rgb(64, 64, 64);
+}
+
+.postTagsContainer{
+  display: flex;
+  gap: 10px;
+  margin-bottom: 35px;
+}
+
+.tagTitle{
+  width: 120px;
+}
+
+.postTags{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag{
+  color: white;
+  padding: 6px;
+  background-color: rgb(52, 51, 51);
+  font-size: 13px;
+}
+
+.categoryTagsSelectContainer {
+  width: 80vw;
+  margin: 15px 0px 0px 0px;
+  display: flex;
+  gap: 30px;
+}
+
+.tagSelect {
+  width: 40%;
+}
+
+.categorySelect {
+  width: 40%;
 }

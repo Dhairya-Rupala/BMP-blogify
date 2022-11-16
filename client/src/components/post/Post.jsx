@@ -63,7 +63,7 @@ export default function Post({ post, user }) {
   );
 }
 
-export const StyledPost = ({post,user}) => {
+export const StyledPost = ({post,user,allTags}) => {
   const [currentPost, setCurrentPost] = useState(post);
   const [author, setAuthor] = useState(null);
   const handleLikes = async (e) => {

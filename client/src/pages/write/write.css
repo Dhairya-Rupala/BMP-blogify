@@ -62,7 +62,17 @@
   right: 170px;
 }
 
-.categorySelectContainer{
-  width: 30vw;
+.categoryTagsSelectContainer{
+  width: 80vw;
   margin:15px 0px;
+  display: flex;
+  gap: 30px;
+}
+
+.tagSelect{
+  width: 40%;
+}
+
+.categorySelect{
+  width: 40%;
 }

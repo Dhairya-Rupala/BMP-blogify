@@ -11,7 +11,7 @@ import UserModal from "../userModal/UserModal";
 import { Select } from "baseui/select";
 import { FacebookShareButton, WhatsappShareButton } from "react-share";
 
-export default function SinglePost({ cats }) {
+export default function SinglePost({ cats,allTags }) {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const onUserInfoClick = async (targetUserName) => {
@@ -42,7 +42,8 @@ export default function SinglePost({ cats }) {
   const [desc, setDesc] = useState("");
   const [cat, setCat] = useState([]);
   const [comment, setComment] = useState("");
-
+  const [tags,setTags] = useState([])
+  console.log(tags)
   // update Mode flag
   const [updateMode, setUpdateMode] = useState(false);
 
@@ -59,6 +60,7 @@ export default function SinglePost({ cats }) {
             id: res.data.categories,
           },
         ]);
+        setTags(res.data.postTags.map((tag)=>{return {id:tag,label:tag}}))
       } catch (error) {
         toaster.info(error.response.data);
       }
@@ -82,6 +84,7 @@ export default function SinglePost({ cats }) {
       title,
       desc,
       categories: cat[0].label,
+      postTags:tags.map((tag)=>tag.label)
     };
 
     const updatePost = async (data, id) => {
@@ -189,14 +192,32 @@ export default function SinglePost({ cats }) {
                 </span>
               )}
               {updateMode && (
-                <div className="updateCatContainer">
-                  <Select
-                    options={cats}
-                    value={cat}
-                    placeholder="Select category"
-                    onChange={({ value }) => setCat(value)}
-                  />
-                </div>
+                <div className="categoryTagsSelectContainer">
+          <div className="categorySelect">
+            <Select
+            options={cats}
+            value={cat}
+          placeholder="Select Post Category"
+                      onChange={params => setCat(params.value)}
+                      overrides={{
+        DropdownOption: {
+          style: () => ({
+            width:"100%"
+          })
+        }
+      }}
+          />
+          </div>
+          <div className="tagSelect">
+            <Select
+            options={allTags}
+            value={tags}
+            multi
+            placeholder="Select tags"
+            onChange={({value}) => setTags(value)}
+        />
+          </div>
+        </div>
               )}
             </div>
             {updateMode ? (
@@ -216,6 +237,14 @@ export default function SinglePost({ cats }) {
             )}
           </div>
           {!updateMode && (
+            <>
+            <div className="postTagsContainer">
+                <h2 className="tagTitle">Post Tags:</h2>
+                <div className="postTags">
+                  {post?.postTags?.map((tag, index) => 
+                    <span className="tag" key={index}>{tag}</span>)}
+                </div>
+            </div>
             <div className="commentSection" style={{ marginBottom: "5rem" }}>
               <h2 className="commentTitle">
                 Comments ({post?.comments?.length}):
@@ -248,7 +277,7 @@ export default function SinglePost({ cats }) {
                 </>
               )}
             </div>
-          )}
+          </>)}
         </div>
       )}
     </>

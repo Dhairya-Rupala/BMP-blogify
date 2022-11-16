@@ -1,6 +1,7 @@
 // Schema for the posts
 
 const mongoose = require("mongoose");
+
 const CommentSchema = new mongoose.Schema(
   {
     cmt_text: {
@@ -40,6 +41,7 @@ const PostSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref:'User'
     }],
+    postTags:[String],
     comments: [CommentSchema],
   },
   { timestamps: true }
