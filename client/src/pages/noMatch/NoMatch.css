@@ -1,0 +1,18 @@
+.nomatch{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+    margin-top:200px;
+}
+
+.heading{
+    font-size: 1.8rem;
+    color: red;
+    font-weight: 600;
+}
+
+.error-code{
+    color: red;
+    font-size: 1.2rem;
+}

@@ -89,11 +89,45 @@ router.get("/:id", async (req, res) => {
 // fetch the user with the username 
 router.get("/", async (req, res) => {
   try {
-    const user = await User.find({ username: req.query.username })
-    return res.status(200).json(user)
+    if (req.query.username) {
+      const user = await User.find({ username: req.query.username })
+      return res.status(200).json(user)
+    }
+    if (req.query.tags.length!=0) {
+      try {
+        const users = await User.find()
+        const targetTags = req.query?.tags
+        const filteredUsers = users.filter((user) => {
+          const intersect = targetTags.filter(tag => user.interestedTags?.indexOf(tag.label) != -1)
+          return intersect.length!=0
+        })
+        return res.status(200).json(filteredUsers)
+      }
+      catch (err) {
+        return res.status(500).json("Something went wrong")
+      }
+    }
+    
   }
   catch (err) {
     return res.status(500).json(err)
+  }
+})
+
+// fetch the users with given interested tags 
+router.get("/:tags", async (req, res) => {
+  try {
+    const users = await User.find()
+    const targetTags = req.params.tags
+    console.log(targetTags)
+    const filteredUsers = users.filter((user) => {
+      const intersect = user.interestedTags.filter(tag=>targetTags?.indexOf(tag)!=-1)
+      return intersect.length!=0
+    })
+    return res.status(200).json(filteredUsers)
+  }
+  catch (err) {
+    return res.status(500).json("Something went wrong")
   }
 })
 module.exports = router;
