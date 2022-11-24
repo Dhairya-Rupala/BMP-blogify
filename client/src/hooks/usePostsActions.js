@@ -1,11 +1,22 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const usePostActions = () => {
+const usePostActions = (user) => {
     const [cats, setCats] = useState([])
     const [allTags,setAllTags] = useState([])
     const [titleSearch, setTitleSearch] = useState('');
-    const [notifs,setNotifs] = useState([])
+    const [notifs, setNotifs] = useState([])
+    
+    const fetchNotifications = async (userId) => {
+        try {
+            const res = await axios.get(`/notify/${userId??''}`)
+            setNotifs(res.data)
+            return ""
+        }
+        catch (err) {
+            return "Something went wrong"
+        }
+    }
     
     useEffect(() => {
         const fetchCats = async () => {
@@ -34,12 +45,15 @@ const usePostActions = () => {
         }
         fetchCats();
         fetchTags();
-    },[]);
+    }, []);
+    
+    useEffect(() => {
+        fetchNotifications(user?._id);
+    },[user])
 
-    const createNotify = async ({msg,user}) => {
+    const createNotify = async ({ msg, user }) => {
+        console.log(user,msg)
         try {
-            console.log(user)
-            console.log(msg)
             const res = await axios.post("/notify",{
                 data: {
                     user,msg
@@ -51,10 +65,27 @@ const usePostActions = () => {
             return "Something Went wrong";
         }
     }
+
+    const deleteNotify = async (notifId) => {
+        try {
+            const res = await axios.delete(`/notify/${notifId}/${user._id}`)
+            setNotifs(notifs.filter((notif) => notif._id != notifId))
+            console.log(notifs)
+
+        }   
+        catch (err) {
+            return "Something Went wrong";
+        }
+    }
+
     const onNotifAction = (notifAction) => {
         switch (notifAction.type) {
             case "CREATE_NOTIFY":
                 createNotify(notifAction.payload)
+                break
+            
+            case "DELETE_NOTIFY":
+                deleteNotify(notifAction.payload)
                 break
         }
     }
@@ -63,7 +94,8 @@ const usePostActions = () => {
         state: {
             cats,
             allTags,
-            titleSearch
+            titleSearch,
+            notifs
         },
         setTitleSearch,
         onNotifAction

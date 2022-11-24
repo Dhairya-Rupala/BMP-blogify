@@ -128,13 +128,15 @@ export default function SinglePost({ cats,allTags,onNotifAction }) {
       }
 
       try {
-        onNotifAction({
+        if (targetUser != user._id) {
+          onNotifAction({
         type: "CREATE_NOTIFY",
         payload: {
           user,
           msg
         }
       })
+        }
       }
       catch (err) {
         toaster.info("Something went wrong")

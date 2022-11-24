@@ -119,7 +119,6 @@ router.get("/:tags", async (req, res) => {
   try {
     const users = await User.find()
     const targetTags = req.params.tags
-    console.log(targetTags)
     const filteredUsers = users.filter((user) => {
       const intersect = user.interestedTags.filter(tag=>targetTags?.indexOf(tag)!=-1)
       return intersect.length!=0

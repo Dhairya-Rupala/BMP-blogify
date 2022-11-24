@@ -35,7 +35,7 @@ const routeCreater = (search, username) => {
   return route;
 }
 
-export default function TopBar() {
+export default function TopBar({notifications,onNotifAction}) {
   
   // fetching the search query from the current URL 
   const { search } = useLocation();
@@ -91,7 +91,7 @@ export default function TopBar() {
       <div className="topRight">
         {user ? (
           <div className="topRightChild">
-            <span className="notify-icon"><Notifications notifications={[] } /></span>
+            <span className="notify-icon"><Notifications notifications={notifications} onNotifAction={onNotifAction} /></span>
             <Link to="/settings">
               <img className="topImg" src={user.profilePic?PF+user.profilePic:PF+"DAIICT_LOGO.png"} alt="" />
             </Link>

@@ -2,7 +2,7 @@ import "./post.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import { Button } from 'baseui/button';
+import { toaster } from 'baseui/toast';
 import { useEffect } from "react";
 
 export default function Post({ post, user }) {
@@ -63,7 +63,7 @@ export default function Post({ post, user }) {
   );
 }
 
-export const StyledPost = ({post,user,allTags}) => {
+export const StyledPost = ({post,user,allTags,onNotifAction}) => {
   const [currentPost, setCurrentPost] = useState(post);
   const [author, setAuthor] = useState(null);
   const handleLikes = async (e) => {
@@ -72,7 +72,31 @@ export const StyledPost = ({post,user,allTags}) => {
       `http://localhost:5000/api/posts/like/${post._id}/${user._id}`,
       {}
     );
+
     setCurrentPost(likePost.data);
+    let targetUser = await axios.get(`http://localhost:5000/api/users/?username=${post?.username}`)
+      targetUser = targetUser?.data[0]?._id
+      const msg = {
+        id: post?._id,
+        text: "Liked your post",
+        recipients: [targetUser],
+        url:`/post/${post?._id}`
+      }
+
+      try {
+        if (targetUser != user._id && !currentPost.likes.includes(user._id)) {
+          onNotifAction({
+        type: "CREATE_NOTIFY",
+        payload: {
+          user,
+          msg
+        }
+      })
+        }
+      }
+      catch (err) {
+        toaster.info("Something went wrong")
+      }
   };
 
   useEffect(() => {

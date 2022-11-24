@@ -21,11 +21,11 @@ function App() {
   
   // fetching user and calling postActions hooks
   const { user } = useContext(Context);
-  const { state,setTitleSearch,onNotifAction } = usePostActions();
+  const { state,setTitleSearch,onNotifAction } = usePostActions(user);
 
   return (
     <Router>
-      <TopBar />
+      <TopBar notifications={state.notifs} onNotifAction={onNotifAction} />
       <Switch>
         <Route exact path="/">
           {user ? <Home cats={state.cats} setTitleSearch={setTitleSearch} titleSearch={state.titleSearch} onNotifAction={onNotifAction} /> : <Login />}
