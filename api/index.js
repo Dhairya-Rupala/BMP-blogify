@@ -33,6 +33,7 @@ const postRoute = require("./routes/posts");
 const categoryRoute = require("./routes/categories");
 const searchRoute = require("./routes/search");
 const tagsRoute = require("./routes/tags");
+const notifyRoute = require("./routes/notify")
 
 // using the json middleware 
 app.use(express.json());
@@ -65,6 +66,7 @@ app.use("/api/posts", postRoute);
 app.use("/api/categories", categoryRoute);
 app.use("/api/search", searchRoute);
 app.use("/api/tags", tagsRoute);
+app.use("/api/notify", notifyRoute);
 
 
 // server at port 5000

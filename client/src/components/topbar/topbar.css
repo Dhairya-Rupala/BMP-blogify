@@ -51,3 +51,17 @@
   border-bottom: 2px solid blue;
 }
 
+.topRightChild{
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.notify-icon{
+  font-size: 20px;
+}
+
+.notify-icon:hover{
+  cursor: pointer;
+  scale: 120%;
+}

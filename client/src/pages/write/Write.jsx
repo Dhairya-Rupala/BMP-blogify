@@ -5,8 +5,9 @@ import { Context } from "../../context/Context";
 import QuillEditor from "../../components/quillEditor/QuillEditor";
 import { Select } from "baseui/select";
 import { toaster } from 'baseui/toast';
+import qs from "qs"
 
-export default function Write({cats,allTags}) {
+export default function Write({cats,allTags,onNotifAction}) {
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
   const [file, setFile] = useState(null);
@@ -37,12 +38,48 @@ export default function Write({cats,allTags}) {
     }
     try {
       const res = await axios.post("/posts", newPost);
-      window.location.replace("/post/" + res.data._id);
+
+      // sending notifications 
+      let targetUsersForNotify = await axios.get("/users", {
+        params: {
+          tags:tags
+        },
+        paramsSerializer: params => {
+          return qs.stringify(params)
+        }
+      })
+
+      // removing the current user 
+      targetUsersForNotify = targetUsersForNotify.data;
+      targetUsersForNotify = targetUsersForNotify.filter((targetUser) => user._id != targetUser._id)
+      targetUsersForNotify = targetUsersForNotify.map((tUser)=>tUser._id)
+      
+      const msg = {
+        id: res.data._id,
+        text: "Added new post",
+        recipients: targetUsersForNotify,
+        url:`/post/${res.data._id}`
+      }
+
+      try {
+        onNotifAction({
+        type: "CREATE_NOTIFY",
+        payload: {
+          user,
+          msg
+        }
+      })
+      }
+      catch (err) {
+        toaster.info("Something went wrong")
+      }
+      
+      // window.location.replace("/post/" + res.data._id);
     } catch (err) {
       if(err.response.status==413)
         toaster.info("Content is too large")
       else
-        toaster.info(err.response.data)
+        toaster.info("Something Went Wrong")
     }
   };
   return (

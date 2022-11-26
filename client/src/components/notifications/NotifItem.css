@@ -1,0 +1,32 @@
+.notif-wrapper,.notif-wrapper:active{
+    text-decoration: none;
+    color: inherit;
+    border: none;
+}
+
+.notif-content-wrapper{
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+.notif-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 2px 4px 2px;
+    border-bottom: 2px solid white;
+}
+
+.notif-logo-container{
+    height: 40px;
+    width: 40px;
+}
+
+.notif-logo{
+    border-radius: 100%;
+}
+
+.notif-content{
+    padding: 4px;
+
+}

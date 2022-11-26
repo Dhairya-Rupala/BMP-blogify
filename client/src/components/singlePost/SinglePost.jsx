@@ -11,7 +11,7 @@ import UserModal from "../userModal/UserModal";
 import { Select } from "baseui/select";
 import { FacebookShareButton, WhatsappShareButton } from "react-share";
 
-export default function SinglePost({ cats,allTags }) {
+export default function SinglePost({ cats,allTags,onNotifAction }) {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const onUserInfoClick = async (targetUserName) => {
@@ -43,7 +43,6 @@ export default function SinglePost({ cats,allTags }) {
   const [cat, setCat] = useState([]);
   const [comment, setComment] = useState("");
   const [tags,setTags] = useState([])
-  console.log(tags)
   // update Mode flag
   const [updateMode, setUpdateMode] = useState(false);
 
@@ -62,20 +61,26 @@ export default function SinglePost({ cats,allTags }) {
         ]);
         setTags(res.data.postTags.map((tag)=>{return {id:tag,label:tag}}))
       } catch (error) {
-        toaster.info(error.response.data);
+        toaster.info("Something went wrong");
       }
     };
     getPost();
   }, [path]);
 
   const handleDelete = async () => {
-    const deletePost = async (username, id) => {
+    try {
+      const deletePost = async (username, id) => {
       await axios.delete(`/posts/${id}`, {
         data: { username },
       });
     };
     await deletePost(user.username, post._id);
     window.location.replace("/");
+    }
+    catch (err) {
+      toaster.info("Something went wrong")
+    }
+    
   };
 
   const handleUpdate = async () => {
@@ -112,10 +117,35 @@ export default function SinglePost({ cats,allTags }) {
           user_id: user._id,
         }
       );
+
+      let targetUser = await axios.get(`/users/?username=${post.username}`)
+      targetUser = targetUser?.data[0]?._id
+      const msg = {
+        id: post._id,
+        text: "Commented on your post",
+        recipients: [targetUser],
+        url:`/post/${post._id}`
+      }
+
+      try {
+        if (targetUser != user._id) {
+          onNotifAction({
+        type: "CREATE_NOTIFY",
+        payload: {
+          user,
+          msg
+        }
+      })
+        }
+      }
+      catch (err) {
+        toaster.info("Something went wrong")
+      }
+
       setPost(res.data);
       setComment("");
     } catch (error) {
-      console.log(error.response.data);
+      toaster.info("Something went wrong")
     }
   };
 

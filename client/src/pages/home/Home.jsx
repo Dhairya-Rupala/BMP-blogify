@@ -25,7 +25,7 @@ const routeCreater = (search, titleSearch) => {
 }
 
 
-export default function Home({ cats,setTitleSearch,titleSearch }) {
+export default function Home({ cats,setTitleSearch,titleSearch,onNotifAction }) {
   const [posts, setPosts] = useState([])
   const { search } = useLocation();
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function Home({ cats,setTitleSearch,titleSearch }) {
   return (
     <>
       <div className="home">
-        <Posts posts={posts} />
+        <Posts posts={posts} onNotifAction={onNotifAction} />
         <Sidebar setTitleSearch={setTitleSearch} cats={cats} />
       </div>
     </>

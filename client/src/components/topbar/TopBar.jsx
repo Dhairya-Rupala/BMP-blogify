@@ -3,6 +3,7 @@ import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../../context/Context";
 import { useLocation } from "react-router";
+import Notifications from "../notifications/Notifications";
 // styles 
 import "./topbar.css";
 
@@ -34,7 +35,7 @@ const routeCreater = (search, username) => {
   return route;
 }
 
-export default function TopBar() {
+export default function TopBar({notifications,onNotifAction}) {
   
   // fetching the search query from the current URL 
   const { search } = useLocation();
@@ -89,9 +90,13 @@ export default function TopBar() {
        */}
       <div className="topRight">
         {user ? (
-          <Link to="/settings">
-            <img className="topImg" src={user.profilePic?PF+user.profilePic:PF+"DAIICT_LOGO.png"} alt="" />
-          </Link>
+          <div className="topRightChild">
+            <span className="notify-icon"><Notifications notifications={notifications} onNotifAction={onNotifAction} /></span>
+            <Link to="/settings">
+              <img className="topImg" src={user.profilePic?PF+user.profilePic:PF+"DAIICT_LOGO.png"} alt="" />
+            </Link>
+          </div>
+          
         ) : (
           <ul className="topList">
             <li className="topListItem">

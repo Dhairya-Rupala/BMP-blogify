@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const User = require("../models/User");
 const Post = require("../models/Post");
+const Notify = require("../models/Notify");
 
 //CREATE POST
 router.post("/", async (req, res) => {
@@ -123,17 +124,6 @@ router.get("/", async (req, res) => {
       posts = await Post.find()
     }
     if (searchTitle) {
-      // titleSearchPosts = await Post.aggregate([
-      // {
-      //   "$search": {
-      //     "index": "title_search",
-      //     "wildcard": {
-      //       "query": `*${searchTitle?.trim()}*`,
-      //       "path": "title"
-      //     }
-      //   }
-      // }
-      // ])
       titleSearchPosts = await Post.find({
         title: {
           $regex: searchTitle,
