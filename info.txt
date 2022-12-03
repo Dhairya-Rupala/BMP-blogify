@@ -1,5 +1,5 @@
-** App Pages **
-/register = for registering the user 
-/login = for login existing user 
-/settings = for seeing the user profile 
-/post/:postId = for fetching the specific post 
+A blog platform for DA-IICT Student community.
+
+Developers:
+Satyam Bhut - satyambhut01@gmail.com
+Dhairya Rupala - rupaladhairya@gmail.com
