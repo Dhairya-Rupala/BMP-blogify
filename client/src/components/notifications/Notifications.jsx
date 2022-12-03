@@ -1,7 +1,7 @@
 import "./Notifications.css";
 import { useState } from "react";
 import { StatefulPopover } from "baseui/popover";
-
+import NotifItem from "./NotifItem";
 const Notifications = ({ notifications, onNotifAction }) => {
   const [isOpen, setIsOpen] = useState(false);
   return (

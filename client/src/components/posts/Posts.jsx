@@ -3,14 +3,19 @@ import { useContext } from "react";
 import "./posts.css";
 import { StyledPost } from "../post/Post";
 
-export default function Posts({ posts }) {
+export default function Posts({ posts, onNotifAction }) {
   const user = useGlobalContext();
 
   return posts ? (
     <div className="posts">
       {posts &&
         posts.map((p, index) => (
-          <StyledPost post={p} key={index} user={user.user} />
+          <StyledPost
+            post={p}
+            key={index}
+            user={user.user}
+            onNotifAction={onNotifAction}
+          />
         ))}
     </div>
   ) : (

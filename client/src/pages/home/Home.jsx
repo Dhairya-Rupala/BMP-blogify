@@ -20,7 +20,12 @@ const routeCreater = (search, titleSearch) => {
   return route;
 };
 
-export default function Home({ cats, setTitleSearch, titleSearch }) {
+export default function Home({
+  cats,
+  setTitleSearch,
+  titleSearch,
+  onNotifAction,
+}) {
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 10;
@@ -49,7 +54,7 @@ export default function Home({ cats, setTitleSearch, titleSearch }) {
     <>
       <div className="home">
         <div className="content">
-          <Posts posts={currentPosts} />
+          <Posts posts={currentPosts} onNotifAction={onNotifAction} />
           <Sidebar setTitleSearch={setTitleSearch} cats={cats} />
         </div>
         <div className="pagination">
