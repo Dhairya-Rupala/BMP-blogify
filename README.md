@@ -2,7 +2,7 @@
 
 Blogify is a full stack web application for sharing the blogs for the student community.User can create their custom profile on the platform. Users can share the blogs, can attach tags to the posts, and users can categorise the posts based on the post types. Users can like the posts, and can comment on the post. The respective author will receive the post notification based on the likes, comments or their interested tags. Users can also search the blog posts based on their titles. Users will also be able to share the posts with the protected links to other social media platforms and users will also be able to copy the link to the clipboard. 
 
-For starting the app in the development server first create an .env file inside the api folder and create the below variables, and paste the regarding credentials in the .env file and then run the script `npm start` in both the client and the api directory simultaneously to start the server and the frontend. 
+For starting the app in the development server first create an .env file inside the api folder and create the below variables, and paste the regarding credentials in the .env file and then you have to install all the packages listed inside the package.json file using the `npm i` or `npm install` in both the api and client dir and then run the script `npm start` in both the client and the api directory simultaneously to start the server and the frontend. 
 
 `MONGODB_URL // mongodb cluster URL`   
 `MONGO_USER // mongodb username`   
