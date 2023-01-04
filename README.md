@@ -14,7 +14,11 @@ The web app comprises two interfaces communicating with the API, which are the f
 
 
 ## Client:
-The frontend of the whole web application is created using the React.js library. Also for some UI components we have used the BaseUI library developed by Uber. All the UI components are residing under the directory named src. All important directories for the UI are listed below.
+The frontend of the whole web application is created using the React.js library. Also for some UI components we have used the BaseUI library developed by Uber. All the UI components are residing under the directory named src. All important directories for the UI are listed below.  
+
+### src/app.js     
+This file consists of the main component which will be rendered inside the root div of the web application as per the react notation. This page comprises of all the routes which are there in the web app and their mapping to respective components.   
+
 
 
 ### src/pages 
