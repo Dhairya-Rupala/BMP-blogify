@@ -69,4 +69,43 @@ This directory consists of the helpful components which the App pages will use t
 
 12. topBar - This directory contains the components and the styles used for building the UI of the header part or the Top part of the web app.
 
-13. userModal - This directory contains the component and the styles for the modal, which is rendered when the user will click on any other user’s profile. 
+13. userModal - This directory contains the component and the styles for the modal, which is rendered when the user will click on any other user’s profile.  
+
+
+
+# API:
+
+The API folder consists of all the files and directories related to the application's backend. Server Initialization, Database handling, URL calls, CRUD operations, information fetching, etc., are all implemented in this. It contained,
+
+### Index.js  
+The fundamental file to initiate the backend server, the routes, and the MongoDB database. The Multer module is used for image storage and retrieval.  
+
+### Models  
+Models contain an implementation of a schematic diagram of various databases. Basic definitions of the items/data are implemented in a .js file. Each of the files is written in a standard mongoose syntax and defines the fields and prototype of the data. Users can easily modify the structure according to their needs. This contains various types of databases which are listed below.  
+
+1. Category.js - used to define the category of posts (i.e, whether it’s a query, blog, or interview experience)  
+
+2. Notify.js - defines the structure of notification.   
+
+3. Post.js - defines the structure of individual posts that are going to be created by a particular user.  
+
+4. Tags.js - defines the schema for an individual tag. Tag helps match the post with the user's interest so that the user can get notified when any new posts are posted with similar tags.  
+
+5. User.js - defines the structure and fields of the user. One can easily include other fields related to a user in the database using this file.  
+
+### Routes  
+This folder contains all the files related to handling the API request that is coming from the webpage to access databases and retrieve information. We made separate files for each of the different types of data available in the database. We used the express.js framework with node JS so that it’d be easier to build RESTful APIs. This folder contains the following files:  
+
+1. Auth.js - Handles the API request and routing at the time of log-in and register.  
+
+2. Categories.js -  Handles the API request related to the category associated with a particular post.  
+
+3. Notify.js - notifications handling and fetching are done through this file.   
+
+4. Posts.js - Operations like the Insertion of the post by a particular and fetching all the posts are done through this file. CRUD operations related to any post are done through this.  
+
+5. Search.js - Searching a particular post using a title is done through this. We have made a MongoDB search index as ‘title_search’ and searching is done by applying appropriate query on the MongoDB database.   
+
+6. Tags.js - fetching all the tags associated with particular posts and the user’s favorite tags are achieved through this.  
+
+7. Users.js - Routing related to users is done through this file. Also, the updation of the user profile(i.e., changing password, phone number, profile photo, tags, etc.) is handled.  
